@@ -1,0 +1,46 @@
+book_store est une plateforme de vente en ligne de livres.
+
+1. descriptions des pages :
+     - / (homepage) : les derniers livres mis en ventes
+     - /categories/create : création de categories
+     - /categories : liste différentes categories livres ("fantasy", "science-fiction", "romance", ...)
+     - /categories/{categories} : listes des livres par categories
+     - /auteur/create
+     - /auteurs : liste des auteurs
+     - /auteurs/{auteur} : listes des livres par auteurs + biographie
+     - /books/{books} : détails d'un livre
+     - /books/create : création d'un nouveau livre
+     - /cart : panier
+
+2. fonctionnalité
+    - sur la page détails d'un livre, prévoir un bouton pour l'ajouter au panier.
+
+3. Description des entités : 
+
+    (* données obligatoires)
+
+    Book:
+    - title : string * (max 255 caractère)
+    - description : text * (min 20 caractère)
+    - categories : Category[] *
+    - author : Author *
+    - note : int * (comprise entre 0 & 5) 
+    - isbn-10 : string * (10 caractère exactement)
+
+    Category: 
+    - name : string * (max 255)
+
+    Author: 
+    - firstName : string (max 255)
+    - lastName : string * (max 255)
+    - birthDate : date 
+    - deathDate : date
+    - biography : text (min 100)
+
+
+
+
+
+
+
+

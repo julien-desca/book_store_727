@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Nouvel auteur {% endblock %}
+
+{% block body %}
+    <h1>Création d'un nouvel auteur</h1>
+    {# {{ form(form) }} #}
+    {{ form_start(form) }}
+        <div class="row">
+            <div class="col-6">
+                {{ form_row(form.firstName) }}
+            </div>
+            <div class="col-6">
+                {{ form_row(form.lastName)}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                {{ form_row(form.birthDate)}}
+            </div>
+            <div class="col-6">
+                {{form_row(form.deathDate)}}
+            </div>
+        </div>
+        {{ form_row(form.biography) }}
+    {{ form_end(form)}}
+{% endblock %}

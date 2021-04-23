@@ -13,13 +13,18 @@
     </head>
     <body>
         <div class="container-fluid">
-            <nav class="navbar navbar-dark bg-dark">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href={{ path('list_category') }}>Catégories</a>
-                    </li>
-                </ul>
+
+            <nav class="navbar navbar-dark bg-dark navbar-expand-lg">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href={{ path('list_category') }}>Catégories</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href={{ path('list_author') }}>Auteurs</a>
+                        </li>
+                    </ul>
             </nav>
+            
             {% block body %}{% endblock %}
         </div>
     </body>

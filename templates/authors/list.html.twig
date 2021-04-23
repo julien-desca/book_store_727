@@ -1,0 +1,35 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Auteurs{% endblock %}
+
+{% block body %}
+    <h1>Liste des auteurs</h1>
+    <table class="table">
+        <thead>
+            <th>Nom</th>
+            <th>Prenom</th>
+            <th>Date de naissance</th>
+            <th>Date de décès</th>
+        </thead>
+        <tbody>
+            {% for author in authorList %}
+                <tr>
+                    <td>{{ author.lastName }}</td>
+                    <td>{{ author.firstName }}</td>
+                    <td>
+                        {% if author.birthDate is not null %}
+                            {{ author.birthDate|date('d/m/Y') }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if author.deathDate is not null %}
+                            {{ author.deathDate|date('d/m/Y') }}
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="btn btn-primary" href={{ path('create_author')}}>Créer un nouvel auteur</a>
+{% endblock %}

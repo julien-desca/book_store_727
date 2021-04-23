@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Author;
 use App\Form\AuthorType;
+use App\Repository\AuthorRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,8 +17,14 @@ class AuthorController extends AbstractController{
      */
     private $manager;
 
-    public function __construct(EntityManagerInterface $manager){
+    /**
+     * @var AuthorRepository
+     */
+    private $authorRepository;
+
+    public function __construct(EntityManagerInterface $manager, AuthorRepository $authorRepository){
         $this->manager = $manager;
+        $this->authorRepository = $authorRepository;
     }
 
     /**
@@ -32,8 +39,17 @@ class AuthorController extends AbstractController{
         if($form->isSubmitted() && $form->isValid()){
             $this->manager->persist($author);
             $this->manager->flush();   
+            return $this->redirectToRoute('list_author');
         }
 
         return $this->render('authors/create.html.twig', ['form' => $form->createView()]);
+    }
+
+    /**
+     * @Route("/authors", name="list_author")
+     */
+    public function listAuthor(Request $request){
+        $authorList = $this->authorRepository->findAll();
+        return $this->render('authors/list.html.twig', ['authorList' => $authorList]);
     }
 }

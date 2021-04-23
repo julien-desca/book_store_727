@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class UserController extends AbstractController{
 
@@ -38,6 +39,28 @@ class UserController extends AbstractController{
 
         if($form->isSubmitted() && $form->isValid()){
             $user->setRoles(["ROLE_USER"]);
+            $encodedPassword = $this->encoder->encodePassword($user, $user->getPassword());
+            $user->setPassword($encodedPassword);
+
+            $this->manager->persist($user);
+            $this->manager->flush();
+            return $this->redirectToRoute('app_login');
+        }
+
+        return $this->render('users/create_user.html.twig', ['form' => $form->createView()]);
+    }
+
+    /**
+     * @Route("/admin/register", name="register_admin")
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function registerAdmin(Request $request){
+        $user = new User();
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $user->setRoles(["ROLE_ADMIN"]);
             $encodedPassword = $this->encoder->encodePassword($user, $user->getPassword());
             $user->setPassword($encodedPassword);
 

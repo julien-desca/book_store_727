@@ -22,10 +22,12 @@ book_store est une plateforme de vente en ligne de livres.
     Book:
     - title : string * (max 255 caractère)
     - description : text * (min 20 caractère)
-    - categories : Category[] *
+    - categories : Category[] * (au moins 1 categorie)
     - author : Author *
     - note : int * (comprise entre 0 & 5) 
-    - isbn-10 : string * (10 caractère exactement)
+    - isbn10 : string * (10 caractère exactement)
+    - createdAt : datetime * (renseigné automatique, date de création du livre en BDD)
+    - price : float *
 
     Category: 
     - name : string * (max 255)

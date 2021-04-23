@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class AuthorController extends AbstractController{
 
@@ -29,6 +30,7 @@ class AuthorController extends AbstractController{
 
     /**
      * @Route("/authors/create", name="create_author")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function createAuthor(Request $request){
         $author = new Author();

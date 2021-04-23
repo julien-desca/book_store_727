@@ -22,6 +22,21 @@
                         <li class="nav-item">
                             <a class="nav-link" href={{ path('list_author') }}>Auteurs</a>
                         </li>
+
+                        <li class="nav-item">
+                            {% if is_granted("ROLE_USER") %}
+                                <a class="nav-link" href={{ path('app_logout') }}>Logout</a>
+                            {% else %}
+                                <a class="nav-link" href={{ path('app_login') }}>Login</a>
+                            {% endif %}
+                        </li>
+                        
+                        {% if is_granted("ROLE_ADMIN") %}
+                        <li class="nav-item">
+                            <a class="nav-link" href={{ path('register_admin') }}>Nouveau compte admin</a>
+                        </li>
+                        {% endif %}
+
                     </ul>
             </nav>
             

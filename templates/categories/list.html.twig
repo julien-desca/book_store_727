@@ -10,5 +10,7 @@
         {% endfor %}
     </ul>
     <br/>
-    <a class="btn btn-primary" href={{ path('create_category')}}> Créer une nouvelle catégorie </a>
+    {% if is_granted("ROLE_ADMIN") %}
+        <a class="btn btn-primary" href={{ path('create_category')}}> Créer une nouvelle catégorie </a>
+    {% endif %}
 {% endblock %}

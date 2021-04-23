@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class CategoryController extends AbstractController{
 
@@ -31,6 +32,7 @@ class CategoryController extends AbstractController{
 
     /**
      * @Route("/categories/create", name="create_category")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function createCategory(Request $request){
         $category = new Category();

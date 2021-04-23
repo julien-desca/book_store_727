@@ -14,7 +14,7 @@
         <tbody>
             {% for author in authorList %}
                 <tr>
-                    <td>{{ author.lastName }}</td>
+                    <td>{{ author.lastName|u.truncate(150, '...') }}</td>
                     <td>{{ author.firstName }}</td>
                     <td>
                         {% if author.birthDate is not null %}
@@ -31,5 +31,8 @@
         </tbody>
     </table>
 
-    <a class="btn btn-primary" href={{ path('create_author')}}>Créer un nouvel auteur</a>
+    {% if is_granted('ROLE_ADMIN') %}
+        <a class="btn btn-primary" href={{ path('create_author')}}>Créer un nouvel auteur</a>
+    {% endif %}
+    
 {% endblock %}

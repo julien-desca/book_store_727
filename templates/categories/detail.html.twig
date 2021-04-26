@@ -1,0 +1,13 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Categorie {{category.name}} {% endblock %}
+
+{% block body %}
+    <h1>Liste des livres {{category.name}}</h1>
+    {% for book in category.books %}
+        <h3>{{ book.title}}</h3>
+        <h4>par : {{book.author.firstName}} {{book.author.lastName}}</h4>
+        <p>{{book.description|u.truncate(200, '...')}}</p>
+        <hr />
+    {% endfor %}
+{% endblock %}

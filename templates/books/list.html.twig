@@ -1,0 +1,27 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Livres{% endblock %}
+
+{% block body %}
+    <h1>Liste des livres</h1>
+    <table class="table">
+        <thead>
+            <th>Titre</th>
+            <th>Auteur</th>
+            <th>Prix</th>
+        </thead>
+        <tbody>
+            {% for book in bookList %}
+                <tr>
+                    <td><a href={{path('detail_book', {id: book.id}) }}>{{ book.title }}</a></td>
+                    <td>{{ book.author.firstName}} {{book.author.lastName}}</td>
+                    <td>{{ book.price }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <a class="btn btn-primary" href={{ path('create_book')}}>Nouveau livre</a>
+    {% endif %}
+{% endblock %}

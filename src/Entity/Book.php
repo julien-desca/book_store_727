@@ -6,6 +6,7 @@ use App\Repository\BookRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=BookRepository::class)
@@ -21,32 +22,49 @@ class Book
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
+     * @Assert\Length(max=255)
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank()
+     * @Assert\Length(min=20)
      */
     private $description;
 
     /**
      * @ORM\ManyToMany(targetEntity=Category::class, inversedBy="books")
+     * @Assert\Count(min=1, minMessage="Veuillez selectionner au moins une catégorie")
      */
     private $categories;
 
     /**
      * @ORM\ManyToOne(targetEntity=Author::class, inversedBy="books")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank()
      */
     private $author;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank()
+     * @Assert\Range(
+     *      min=0,
+     *      max=5,
+     *      notInRangeMessage = "La note doit être comprise entre 0 & 5"
+     * )
      */
     private $note;
 
     /**
      * @ORM\Column(type="string", length=10)
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min=10,
+     *      max=10
+     * )
      */
     private $isbn10;
 
@@ -57,6 +75,8 @@ class Book
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\NotBlank()
+     * @Assert\Positive()
      */
     private $price;
 

@@ -1,0 +1,12 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ book.title }}{% endblock %}
+
+{% block body %}
+    <h1>{{ book.title}}</h1>
+    <h2>par {{book.author.firstName}} {{book.author.lastName}}</h2>
+    <p>{{ book.description }}</p>
+    <p>ISBN : {{book.isbn10}}</p>
+    <p>Note : {{book.note}} / 5</p>
+    <p>Prix : {{book.price}}€</p>
+{% endblock %}

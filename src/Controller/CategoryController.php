@@ -11,6 +11,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CategoryController extends AbstractController{
 
@@ -58,6 +60,17 @@ class CategoryController extends AbstractController{
     public function listCategory(Request $request){
         $categoryList = $this->categoryRepository->findAll();
         return $this->render('categories/list.html.twig', ['categoryList' => $categoryList]);
+    }
+
+    /**
+     * @Route("/categories/{id}", name="detail_category")
+     */
+    public function detailCategory(Request $request, int $id){
+        $category = $this->categoryRepository->find($id);
+        if($category == null){
+            throw new HttpException(404);
+        }
+        return $this->render('categories/detail.html.twig', ['category' => $category]);
     }
     
 }

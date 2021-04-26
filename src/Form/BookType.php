@@ -39,7 +39,6 @@ class BookType extends AbstractType{
                 return $author->getFirstName() . " " . $author->getLastName();
             },
         ])
-
         ->add('note', IntegerType::class)
         ->add('isbn10', TextType::class)
         ->add('price', MoneyType::class, [

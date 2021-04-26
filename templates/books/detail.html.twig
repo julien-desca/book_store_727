@@ -3,10 +3,25 @@
 {% block title %}{{ book.title }}{% endblock %}
 
 {% block body %}
+
+    {% for message in app.flashes('notif') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+
     <h1>{{ book.title}}</h1>
     <h2>par {{book.author.firstName}} {{book.author.lastName}}</h2>
     <p>{{ book.description }}</p>
     <p>ISBN : {{book.isbn10}}</p>
-    <p>Note : {{book.note}} / 5</p>
+    <p>Note : {{book.note}}/5</p>
     <p>Prix : {{book.price}}€</p>
+
+    {% if is_granted("ROLE_USER") %}
+        <a class="btn btn-primary" href={{ path('add_to_cart', {id: book.id})}} >Ajouter au panier</a>
+    {% else %}
+        <p>Veuillez vous <a href={{path('app_login')}}>connecter</a>
+             ou vous <a href={{path('register_user')}}>enregister</a> 
+            pour ajouter ce livre au panier</p>
+    {% endif %}
 {% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base.html.twig" %}
+
+{% block title %} Bienvenue sur le Book Store {% endblock %}
+
+{% block body %}
+    <h1>Bienvenue sur le Book Store</h1>
+    <h3>Liste des dernières sorties</h3>
+    <hr>
+    {% for book in bookList %}
+        <h4>{{ book.title}}</h4>
+        <h5>par {{book.author.firstName}} {{book.author.lastName}}</h5>
+        <p>{{book.description|u.truncate(350, '...')}}</p>
+        <a class="btn btn-primary" href={{ path('detail_book', {id:book.id}) }}>plus de détails</a>
+        <hr/>
+    {% endfor %}
+{% endblock %}

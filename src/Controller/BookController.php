@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Book;
+use App\Entity\CartLine;
 use App\Form\BookType;
 use App\Repository\BookRepository;
+use App\Repository\CartLineRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,10 +28,18 @@ class BookController extends AbstractController{
      */
     private $bookRepository;
 
-    public function __construct(EntityManagerInterface $manager, BookRepository $bookRepository)
+    /**
+     * @var CartLineRepository
+     */
+    private $cartLineRepository;
+
+    public function __construct(EntityManagerInterface $manager,
+                                BookRepository $bookRepository, 
+                                CartLineRepository $cartLineRepository)
     {
         $this->manager = $manager;
         $this->bookRepository = $bookRepository;
+        $this->cartLineRepository = $cartLineRepository;
     }
 
     /**
@@ -67,5 +77,32 @@ class BookController extends AbstractController{
             throw new HttpException(404);
         }
         return $this->render("books/detail.html.twig", ['book' => $book]);
+    }
+
+    /**
+     * @Route("/books/{id}/addToCart", name="add_to_cart", requirements={"id"="\d+"})
+     */
+    public function addBookToCart(Request $request, int $id){
+        $book = $this->bookRepository->find($id);
+        if($book == null){
+            throw new HttpException(404);
+        }
+        
+        $cartLine = $this->cartLineRepository->findByUserAndBook($this->getUser(), $book);
+        if($cartLine == null){
+            $cartLine = new CartLine();
+            $cartLine->setBook($book);
+            $cartLine->setQuantity(1);
+            $cartLine->setUser($this->getUser());
+        }
+        else{
+            $cartLine->setQuantity($cartLine->getQuantity() + 1);
+        }    
+
+        $this->manager->persist($cartLine);
+        $this->manager->flush();
+
+        $this->addFlash('notif', 'Votre produit à bien été ajouté au panier');
+        return $this->redirectToRoute('detail_book', ['id'=>$id]);
     }
 }

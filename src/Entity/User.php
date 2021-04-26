@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -43,6 +45,16 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255)
      */
     private $lastName;
+
+    /**
+     * @ORM\OneToMany(targetEntity=CartLine::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $cartLines;
+
+    public function __construct()
+    {
+        $this->cartLines = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -145,6 +157,36 @@ class User implements UserInterface
     public function setLastName(string $lastName): self
     {
         $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CartLine[]
+     */
+    public function getCartLines(): Collection
+    {
+        return $this->cartLines;
+    }
+
+    public function addCartLine(CartLine $cartLine): self
+    {
+        if (!$this->cartLines->contains($cartLine)) {
+            $this->cartLines[] = $cartLine;
+            $cartLine->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCartLine(CartLine $cartLine): self
+    {
+        if ($this->cartLines->removeElement($cartLine)) {
+            // set the owning side to null (unless already changed)
+            if ($cartLine->getUser() === $this) {
+                $cartLine->setUser(null);
+            }
+        }
 
         return $this;
     }

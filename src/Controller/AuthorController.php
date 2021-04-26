@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class AuthorController extends AbstractController{
 
@@ -53,5 +54,17 @@ class AuthorController extends AbstractController{
     public function listAuthor(Request $request){
         $authorList = $this->authorRepository->findAll();
         return $this->render('authors/list.html.twig', ['authorList' => $authorList]);
+    }
+
+    /**
+     * @Route("/authors/{id}", name="detail_author", requirements={"id"="\d+"})
+     */
+    public function detailAuthor(Request $request, int $id){
+        $author = $this->authorRepository->find($id);
+        if($author == null){
+            throw new HttpException(404);
+        }
+
+        return $this->render("authors/detail.html.twig", ['author' => $author]);
     }
 }

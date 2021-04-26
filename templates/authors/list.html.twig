@@ -1,15 +1,16 @@
 {% extends "base.html.twig" %}
 
-{% block title %}Auteurs{% endblock %}
+{% block title %}Auteur(e)s{% endblock %}
 
 {% block body %}
-    <h1>Liste des auteurs</h1>
+    <h1>Liste des auteur(e)s</h1>
     <table class="table">
         <thead>
             <th>Nom</th>
             <th>Prenom</th>
             <th>Date de naissance</th>
             <th>Date de décès</th>
+            <th></th>
         </thead>
         <tbody>
             {% for author in authorList %}
@@ -26,13 +27,14 @@
                             {{ author.deathDate|date('d/m/Y') }}
                         {% endif %}
                     </td>
+                    <td><a href={{path('detail_author', {id: author.id})}}>Détails</a></td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
 
     {% if is_granted('ROLE_ADMIN') %}
-        <a class="btn btn-primary" href={{ path('create_author')}}>Créer un nouvel auteur</a>
+        <a class="btn btn-primary" href={{ path('create_author')}}>Créer un nouvel auteur(e)</a>
     {% endif %}
     
 {% endblock %}

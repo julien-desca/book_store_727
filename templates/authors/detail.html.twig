@@ -1,0 +1,23 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ author.firstName }} {{author.lastName}}{% endblock %}
+
+{% block body %}
+    <h1>{{author.firstName}} {{author.lastName}}</h1>
+    <p>Date de naissance : 
+        {% if author.birthDate is not null %} {{author.birthDate|date('d/m/Y')}} {% endif %}
+    </p>
+    <p>Date de décès: 
+        {% if author.deathDate is not null %} {{author.deathDate|date('d/m/Y')}} {% endif %}
+    </p>
+    <p>Biographie:</p>
+    <p>{{author.biography}}</p>
+    <p>Liste des ouvrages:
+        <ul>
+            {% for book in author.books %}
+                <li><a href={{path('detail_book', {id: book.id})}}> {{book.title}}</a></li>    
+            {% endfor %}
+        </ul>
+    </p>
+    
+{% endblock %}
